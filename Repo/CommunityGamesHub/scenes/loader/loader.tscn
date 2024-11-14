@@ -1,0 +1,215 @@
+[gd_scene load_steps=12 format=3 uid="uid://bdq62edaa0his"]
+
+[ext_resource type="Script" path="res://scripts/loader/loader.gd" id="1_8sek3"]
+[ext_resource type="Shader" path="res://scripts/shader/fader.gdshader" id="2_exiwf"]
+[ext_resource type="Texture2D" uid="uid://bq1euigrqva66" path="res://assets/icon.svg" id="3_6vmih"]
+[ext_resource type="Shader" path="res://scripts/shader/chain.gdshader" id="4_xxcn4"]
+[ext_resource type="Texture2D" uid="uid://coptb24qn4cct" path="res://assets/jinx_studio_logo.svg" id="5_4iia2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l4086"]
+shader = ExtResource("2_exiwf")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h7v3h"]
+shader = ExtResource("4_xxcn4")
+shader_parameter/radius = 1.0
+
+[sub_resource type="Animation" id="Animation_re3hq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect:material:shader_parameter/radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_w718u"]
+resource_name = "end"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"end"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_p1a2l"]
+resource_name = "start"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect:material:shader_parameter/radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_35sri"]
+_data = {
+"RESET": SubResource("Animation_re3hq"),
+"end": SubResource("Animation_w718u"),
+"start": SubResource("Animation_p1a2l")
+}
+
+[node name="Control" type="Control" node_paths=PackedStringArray("anim", "timer", "texture_r")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8sek3")
+next_scene = "res://scenes/hub/hub.tscn"
+anim = NodePath("AnimationPlayer")
+timer = NodePath("Timer")
+texture_r = NodePath("PanelContainer/TextureRect")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer"]
+material = SubResource("ShaderMaterial_l4086")
+layout_mode = 2
+texture = ExtResource("3_6vmih")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_h7v3h")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 16.0
+offset_right = 538.0
+offset_bottom = 91.0
+theme_override_font_sizes/mono_font_size = 24
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[u]Godot Comunity Games[/u]
+[code]Game Hub[/code]"
+fit_content = true
+scroll_active = false
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 425.0
+offset_top = 258.0
+offset_right = 955.0
+offset_bottom = 343.0
+theme_override_font_sizes/mono_font_size = 24
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+modulate = Color(1, 1, 1, 0.67451)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.15
+anchor_top = 0.15
+anchor_right = 0.95
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+alignment_horizontal = 2
+alignment_vertical = 2
+metadata/_edit_group_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Label" type="Label" parent="AspectRatioContainer/VBoxContainer"]
+layout_mode = 2
+text = "in collaberation with:"
+
+[node name="TextureRect" type="TextureRect" parent="AspectRatioContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_4iia2")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="Label2" type="Label" parent="AspectRatioContainer/VBoxContainer"]
+layout_mode = 2
+text = "Jinx Studios"
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_35sri")
+}
+autoplay = "start"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
